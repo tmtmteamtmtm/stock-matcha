@@ -35,23 +35,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
-
-// DELETE /api/branches
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  const branchId = parseInt(params.id);
-
-  if (isNaN(branchId)) {
-    return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
-  }
-
-  try {
-    await prisma.branch.delete({
-      where: { id: branchId },
-    });
-
-    return NextResponse.json({ message: "Branch deleted" });
-  } catch (err) {
-    console.error("Error deleting branch:", err);
-    return NextResponse.json({ error: "Delete failed" }, { status: 500 });
-  }
-}
