@@ -1,0 +1,181 @@
+{
+  "branches": [
+    {
+      "id": 1,
+      "name": "sb1",
+      "isMain": false,
+      "products": [
+        {
+          "id": 1,
+          "name": "item1",
+          "quantity": 0,
+          "branchId": 1
+        },
+        {
+          "id": 2,
+          "name": "item2",
+          "quantity": 0,
+          "branchId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "sb2",
+      "isMain": false,
+      "products": [
+        {
+          "id": 3,
+          "name": "item1",
+          "quantity": 0,
+          "branchId": 2
+        },
+        {
+          "id": 4,
+          "name": "item2",
+          "quantity": 0,
+          "branchId": 2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "sb3",
+      "isMain": false,
+      "products": [
+        {
+          "id": 5,
+          "name": "item1",
+          "quantity": 0,
+          "branchId": 3
+        },
+        {
+          "id": 6,
+          "name": "item2",
+          "quantity": 0,
+          "branchId": 3
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "sb5",
+      "isMain": false,
+      "products": [
+        {
+          "id": 9,
+          "name": "item1",
+          "quantity": 0,
+          "branchId": 5
+        },
+        {
+          "id": 10,
+          "name": "item2",
+          "quantity": 0,
+          "branchId": 5
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "sb4",
+      "isMain": true,
+      "products": [
+        {
+          "id": 7,
+          "name": "item1",
+          "quantity": 0,
+          "branchId": 4
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "sb6",
+      "isMain": false,
+      "products": [
+        {
+          "id": 13,
+          "name": "item1",
+          "quantity": 0,
+          "branchId": 7
+        },
+        {
+          "id": 14,
+          "name": "item2",
+          "quantity": 0,
+          "branchId": 7
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "item1",
+      "quantity": 0,
+      "branchId": 1
+    },
+    {
+      "id": 2,
+      "name": "item2",
+      "quantity": 0,
+      "branchId": 1
+    },
+    {
+      "id": 3,
+      "name": "item1",
+      "quantity": 0,
+      "branchId": 2
+    },
+    {
+      "id": 4,
+      "name": "item2",
+      "quantity": 0,
+      "branchId": 2
+    },
+    {
+      "id": 5,
+      "name": "item1",
+      "quantity": 0,
+      "branchId": 3
+    },
+    {
+      "id": 6,
+      "name": "item2",
+      "quantity": 0,
+      "branchId": 3
+    },
+    {
+      "id": 7,
+      "name": "item1",
+      "quantity": 0,
+      "branchId": 4
+    },
+    {
+      "id": 9,
+      "name": "item1",
+      "quantity": 0,
+      "branchId": 5
+    },
+    {
+      "id": 10,
+      "name": "item2",
+      "quantity": 0,
+      "branchId": 5
+    },
+    {
+      "id": 13,
+      "name": "item1",
+      "quantity": 0,
+      "branchId": 7
+    },
+    {
+      "id": 14,
+      "name": "item2",
+      "quantity": 0,
+      "branchId": 7
+    }
+  ],
+  "productTemplates": []
+}

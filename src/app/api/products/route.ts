@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 // GET /api/products?branchId=1
+
 export async function GET(req: NextRequest) {
   try {
     const branchId = req.nextUrl.searchParams.get("branchId");
@@ -11,17 +12,34 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Missing branchId" }, { status: 400 });
     }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // ตั้งให้เป็นเวลา 00:00 ของวันนี้
+
     const products = await prisma.product.findMany({
       where: { branchId: Number(branchId) },
+      include: {
+        dailyUsages: {
+          where: { date: today },
+          select: { usedQty: true },
+        },
+      },
       orderBy: { id: "asc" },
     });
 
-    return NextResponse.json(products);
+    const result = products.map((product) => ({
+      id: product.id,
+      name: product.name,
+      quantity: product.quantity,
+      usedQty: product.dailyUsages[0]?.usedQty ?? 0,
+    }));
+
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("GET /api/products error:", error); // ✅ log ให้ดูที่ Terminal
+    console.error("GET /api/products error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
 
 // POST /api/products
 export async function POST(req: NextRequest) {

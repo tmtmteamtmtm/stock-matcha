@@ -22,13 +22,13 @@ export default function EditProductModal({
   onDelete,
 }: EditProductModalProps) {
   const [name, setName] = useState(product.name);
-  const [quantity, setQuantity] = useState(product.quantity);
+  const [quantity, setQuantity] = useState(product.quantity.toString());
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg transform transition-all duration-300 ease-in-out scale-95 animate-fadeIn">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">แก้ไขสินค้า</h3>
           <TrashIcon
@@ -87,9 +87,14 @@ export default function EditProductModal({
             <input
               type="number"
               className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
-              placeholder=""
+              placeholder="จำนวน"
               value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (/^\d*$/.test(val)) {
+                  setQuantity(val);
+                }
+              }}
             />
           </div>
           <div className="flex justify-end mt-6">
@@ -102,7 +107,7 @@ export default function EditProductModal({
               </button>
               <button
                 onClick={() => {
-                  onSave({ id: product.id, name, quantity });
+                  onSave({ id: product.id, name, quantity: Number(quantity) });
                   onClose();
                 }}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

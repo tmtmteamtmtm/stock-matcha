@@ -12,13 +12,13 @@ export default function CreateProductModal({
   branchId,
 }: CreateProductModalProps) {
   const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const newProduct = { name, quantity, branchId };
+      const newProduct = { name,  quantity: Number(quantity), branchId };
       const res = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -39,7 +39,7 @@ export default function CreateProductModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg transform transition-all duration-300 ease-in-out scale-95 animate-fadeIn">
         <h3 className="text-lg font-semibold mb-4">เพิ่มสินค้าใหม่</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -59,7 +59,12 @@ export default function CreateProductModal({
               className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
               placeholder="จำนวน"
               value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (/^\d*$/.test(val)) {
+                  setQuantity(val);
+                }
+              }}
             />
           </div>
           <div className="flex justify-end space-x-2">
