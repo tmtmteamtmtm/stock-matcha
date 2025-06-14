@@ -35,10 +35,19 @@ model DailyUsage {
   @@unique([productId, date])
 }
 
+enum Role {
+  ADMIN
+  STAFF
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
   password  String
+  role      Role    @default(ADMIN)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
+

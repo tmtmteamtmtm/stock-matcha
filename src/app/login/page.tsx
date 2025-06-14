@@ -11,27 +11,31 @@ export default function LoginPage() {
     const router = useRouter();
 
     async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        setErrorMsg("");
+    e.preventDefault();
+    setErrorMsg("");
 
-        try {
-            const res = await signIn("credentials", {
-                redirect: false,
-                email,
-                password,
-            });
-            console.log("Login response:", res);
+    try {
+        const res = await signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+        });
+        console.log("Login response:", res);
 
-            if (res?.error) {
-                setErrorMsg("Login failed: " + res.error);
-            } else {
-                router.push("/dashboard"); // เปลี่ยน path หลัง login สำเร็จ
-            }
-        } catch (error) {
-            console.error("Login error:", error);
-            setErrorMsg("Unexpected error: " + (error instanceof Error ? error.message : String(error)));
+        if (!res?.ok || res?.error) {
+            setErrorMsg("Invalid email or password");
+            return;
         }
+
+        // ถ้าล็อกอินสำเร็จ
+        router.push("/dashboard");
+        router.refresh(); // รีเฟรชเพื่อให้ state อัพเดท
+
+    } catch (error) {
+        console.error("Login error:", error);
+        setErrorMsg("An error occurred during login");
     }
+}
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-700 p-4 sm:p-6 mx-auto">

@@ -21,8 +21,8 @@ export default function ProductTable({ products, onEdit }: ProductTableProps) {
   const [usedQuantities, setUsedQuantities] = useState<Record<number, number>>({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [isFading, setIsFading] = useState(false); // <=== เพิ่ม
 
-  // 👉 ตั้งค่า usedQty ครั้งแรก และไม่ล้างค่าที่เคยมี
   useEffect(() => {
     setUsedQuantities((prev) => {
       const updated = { ...prev };
@@ -35,7 +35,6 @@ export default function ProductTable({ products, onEdit }: ProductTableProps) {
     });
   }, [products]);
 
-  // 👉 ใช้ useMemo ลด render ซ้ำ
   const currentProducts = useMemo(() => {
     return products.slice(
       (currentPage - 1) * itemsPerPage,
@@ -73,13 +72,35 @@ export default function ProductTable({ products, onEdit }: ProductTableProps) {
 
     setUsedQuantities((prev) => ({ ...prev, [id]: newVal }));
     setLoading(true);
+
+    // รีเซ็ต fade และ message ก่อนเริ่ม
+    setIsFading(false);
     setMessage(null);
 
     try {
       await updateUsedQtyAPI(id, newVal);
       setMessage("อัปเดตสำเร็จ");
+
+      // เริ่ม fade หลัง 2 วินาที
+      setTimeout(() => {
+        setIsFading(true);
+      }, 2000);
+
+      // ซ่อน message หลัง fade 0.5 วินาที
+      setTimeout(() => {
+        setMessage(null);
+        setIsFading(false);
+      }, 2500);
+
     } catch (error) {
       setMessage("เกิดข้อผิดพลาดในการอัปเดต");
+      setTimeout(() => {
+        setIsFading(true);
+      }, 2000);
+      setTimeout(() => {
+        setMessage(null);
+        setIsFading(false);
+      }, 2500);
       setUsedQuantities((prev) => ({ ...prev, [id]: currentUsed }));
     } finally {
       setLoading(false);
@@ -94,7 +115,7 @@ export default function ProductTable({ products, onEdit }: ProductTableProps) {
         </span>
         <table className="min-w-full text-sm text-gray-700">
           <thead>
-            <tr className="text-left bg-gray-100">
+            <tr className="text-left">
               <th className="py-2 px-1 w-2"></th>
               <th className="py-2 px-2 max-w-[200px]">ชื่อสินค้า</th>
               <th className="py-2 px-2 w-18">จำนวนทั้งหมด</th>
@@ -174,9 +195,12 @@ export default function ProductTable({ products, onEdit }: ProductTableProps) {
         </button>
       </div>
 
-      {/* Message */}
+      {/* Message with fade */}
       {message && (
-        <div className="mt-2 text-center text-sm text-green-600">
+        <div
+          className="mt-2 text-center text-sm text-green-600 transition-opacity duration-500"
+          style={{ opacity: isFading ? 0 : 1 }}
+        >
           {message}
         </div>
       )}
