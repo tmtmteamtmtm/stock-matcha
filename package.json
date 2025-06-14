@@ -10,7 +10,8 @@
     "backup": "ts-node --project tsconfig.scripts.json scripts/backup.ts",
     "seed": "ts-node scripts/seed.ts",
     "build:prod": "dotenv -e .env.production -- next build",
-    "start:prod": "dotenv -e .env.production -- node .next/standalone/server.js"
+    "start:prod": "dotenv -e .env.production -- node .next/standalone/server.js",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.2",

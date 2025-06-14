@@ -15,29 +15,24 @@ model Branch {
 }
 
 model Product {
-  id        Int          @id @default(autoincrement())
-  name      String
-  quantity  Int
-  branchId  Int
-  branch    Branch       @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  id          Int          @id @default(autoincrement())
+  name        String
+  quantity    Int
+  branchId    Int
   dailyUsages DailyUsage[]
+  branch      Branch       @relation(fields: [branchId], references: [id], onDelete: Cascade)
 }
 
 model DailyUsage {
-  id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productId], references: [id])
-  productId Int
-  date      DateTime
-  usedQty   Int      @default(0)
+  id          Int      @id @default(autoincrement())
+  productId   Int
+  date        DateTime
+  usedQty     Int      @default(0)
   productName String?
   branchName  String?
+  product     Product  @relation(fields: [productId], references: [id])
 
   @@unique([productId, date])
-}
-
-enum Role {
-  ADMIN
-  STAFF
 }
 
 model User {
@@ -45,9 +40,12 @@ model User {
   email     String   @unique
   name      String?
   password  String
-  role      Role    @default(ADMIN)
   createdAt DateTime @default(now())
+  role      Role     @default(ADMIN)
   updatedAt DateTime @updatedAt
 }
 
-
+enum Role {
+  ADMIN
+  STAFF
+}
